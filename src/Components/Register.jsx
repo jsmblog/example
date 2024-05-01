@@ -3,16 +3,20 @@ import {
   getAuth,
   updateProfile,
 } from "firebase/auth";
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 import { collection, doc, getFirestore, setDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import React, { useState } from "react";
+
+const GENDERS = ["Masculino", "Femenino", "Prefiero no decirlo"];
 
 const Register = ({ storage }) => {
   const [photoUser, setPhotoUser] = useState(null);
   const [displayPhoto, setDisplayPhoto] = useState(null);
   const [loaderSuccessRegister, setLoaderSuccessRegister] = useState(false);
   const [nameUser, setNameUser] = useState("");
+  const [genderUser, setGenderUser] = useState("Masculino");
+  const [birthdayUser, setBirthdayUser] = useState("");
   const [emailUser, setEmailUser] = useState("");
   const [passUser, setPassUser] = useState("");
   const [smsInfo, setSmsInfo] = useState("");
@@ -86,6 +90,19 @@ const Register = ({ storage }) => {
         setPassUser("");
         setLoaderSuccessRegister(false);
         return;
+      }else if(!genderUser){
+        displaySmsInfo("Seleccione su genero")
+        setLoaderSuccessRegister(false);
+        return;
+      }else if(!birthdayUser){
+        displaySmsInfo("Ingrese su año de nacimiento");
+        setLoaderSuccessRegister(false);
+        return;
+      }else if((2024 - parseInt(birthdayUser.slice(0,4))) < 18) {
+        displaySmsInfo("Eres menor de edad , intentalo nuevamente")
+        setBirthdayUser("");
+        setLoaderSuccessRegister(false);
+        return;
       }
       const userCredential = await createUserWithEmailAndPassword(
         AUTH,
@@ -105,10 +122,12 @@ const Register = ({ storage }) => {
         profileImage: downloadUrl,
         email: emailUser,
         role: "usuario",
+        gender:genderUser ,
+        birthdayUser,
       });
       displaySmsInfo("exito");
       setLoaderSuccessRegister(false);
-      navigate("/Home")
+      navigate("/Home");
     } catch (error) {
       console.log(error.message);
       setLoaderSuccessRegister(false);
@@ -187,6 +206,18 @@ const Register = ({ storage }) => {
               id="inputPassUser"
               placeholder="********"
             />
+          </label>
+          <select onChange={(e)=> setGenderUser(e.target.value)}>
+              <option value="empty" disabled>
+                {" "}
+                seleccione su genero
+              </option>
+              {GENDERS.map((gender, index) => (
+                <option value={gender} key={index} >{gender}</option>
+              ))}
+          </select>
+          <label htmlFor="inputDate">
+            <input type="date" value={birthdayUser} onChange={(e)=> setBirthdayUser(e.target.value)} id="inputDate" />
           </label>
           <button onClick={handleSubmit} type="button">
             Registrar

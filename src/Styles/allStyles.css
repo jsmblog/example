@@ -44,7 +44,7 @@
     background-color: var(--co-gray-letter-2);
     color:var(--co-green-1);
 }
-.Cont-register label > input {
+.Cont-register label > input , .Cont-register select {
 border-radius: 15px;
 color: var(--co-dark-blue);
 padding: .4rem ;
@@ -111,8 +111,7 @@ padding: .4rem ;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-evenly;
-  padding: .5rem;
+  padding: 1rem .5rem;
   overflow-x: auto;
   gap: 1rem;
 }
@@ -124,6 +123,7 @@ padding: .4rem ;
   align-items: center;
   justify-content: space-evenly;
   gap: .5rem;
+  position: relative;
   padding: .5rem;
   border-radius: 10px;
 }
@@ -171,6 +171,10 @@ padding: .4rem ;
   align-items: center;
   justify-content: center;
 }
+
+.display-Photo-User {
+  position: fixed;
+}
 .display-Photo-User img {
   background-color: var(--co-font-black);
   border: 10px solid var(--co-gray-letter);
@@ -195,6 +199,22 @@ padding: .4rem ;
   width: 100px;
   border-radius: 0 0 10px 10px;
   text-align: center;
+}
+.gender-user , .birthday-user {
+  position: absolute;
+  top: .5rem;
+  right: .5rem;
+}
+.birthday-user {
+ right: 3.5rem;
+ color: var(--co-green-3) !important;
+}
+#birthdayUser-date {
+  position: absolute;
+  color: var(--co-gray-letter);
+  font-size: .9rem;
+  right: .5rem;
+  bottom: .5rem;
 }
 @keyframes l3-1 {
   100% {left:calc(100% - 8px)}

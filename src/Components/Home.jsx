@@ -2,9 +2,10 @@ import { collection, getFirestore, onSnapshot } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import sesionOff from "../image/cerrar-sesion-white.png";
 import { signOut } from "firebase/auth";
-import {useNavigate} from 'react-router-dom'
-const Home = ({ userAuth , user }) => {
+import { useNavigate } from "react-router-dom";
+const Home = ({ userAuth, user }) => {
   const [dataUsers, setDataUsers] = useState([]);
+  console.log(dataUsers);
   const [isOnDisplayPhotoUser, setIsOnDisplayPhotoUser] = useState(false);
   const [displayPhotoUser, setDisplayPhotoUser] = useState(null);
   const [loaderSesionOff, setLoaderSesionOff] = useState(false);
@@ -13,7 +14,7 @@ const Home = ({ userAuth , user }) => {
   useEffect(() => {
     const getAllDocs = async () => {
       try {
-        if(!user){
+        if (!user) {
           navigate("/");
         }
         const collect = collection(db, "USERS");
@@ -25,8 +26,8 @@ const Home = ({ userAuth , user }) => {
               uid: doc.id,
               ...userData,
             });
-            setDataUsers(data);
           });
+          setDataUsers(data);
         });
         return () => obtainData();
       } catch (error) {
@@ -53,12 +54,12 @@ const Home = ({ userAuth , user }) => {
   return (
     <>
       <main className="cont-main-home">
-        {dataUsers && dataUsers !== null ? (
+        {dataUsers && dataUsers.length > 0 ? (
           <>
             <div className="descpt-user">
-              <h2>Usuario</h2> <h2>Rol</h2> <h2>Correo</h2>{" "}
+              <h2>Usuario</h2> <h2>Rol</h2> <h2>Correo</h2> <h2>Género</h2>{" "}
               <img
-              onClick={handleSignOut}
+                onClick={handleSignOut}
                 style={{ cursor: "pointer" }}
                 width={30}
                 src={sesionOff}
@@ -80,10 +81,33 @@ const Home = ({ userAuth , user }) => {
                     height={50}
                     alt={`usuario-${user.name}`}
                   />
-                  <h1>{user.name.length >= 6 ? `${user.name.slice(0,6)}...` : user.name}</h1>
+                  <h1>
+                    {user.name && user.name.length >= 6
+                      ? `${user.name.slice(0, 6)}...`
+                      : user.name}
+                  </h1>
                 </div>
                 <span>{user.role}</span>
-                <h3>{user.email.length >= 15 ? `${user.email.slice(0,14)}...` : user.email}</h3>
+                <h3>
+                  {user.email && user.email.length >= 15
+                    ? `${user.email.slice(0, 14)}...`
+                    : user.email}
+                </h3>
+                <h3 className="birthday-user">
+                {
+                  2024 - parseInt(user.birthdayUser.slice(0,4))
+                } {" "} años
+                </h3>
+                <h3 id="birthdayUser-date">nacimiento: {" "} {user.birthdayUser} </h3>
+                <h3 className="gender-user">
+                  {user.gender && user.gender === "Masculino"
+                    ? "♂️ M"
+                    : user.gender === "Femenino"
+                    ? "♀️ F"
+                    : user.gender === "Prefiero no decirlo"
+                    ? "🤫"
+                    : null}
+                </h3>
               </section>
             ))}
           </>
