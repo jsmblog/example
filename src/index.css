@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400..900&display=swap');
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  border: none;
+  font-family: "Maven Pro", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+:root {
+  --co-green-1 :#006D38 ;
+  --co-green-2 :#519872;
+  /* --co-green-3 :#11f386 ;*/
+  --co-green-3 :#0ff677 ;
+  --co-font-black :rgba(0, 0, 0, 0.783);
+  --co-font-black-2 :rgba(0, 0, 0, 0.187);
+  --co-font-black-3 :rgba(0, 0, 0, 0.094);
+  --co-font-black-4 :rgba(0, 0, 0, 0.95);
+  --co-gray-letter :#F8F8F8;
+  --co-gray-letter-2 :#f8f8f8cc;
+  --co-gray-letter-3 :#f8f8f871;
+  --co-gray-letter-4 :#f8f8f80e;
+  --co-dark-blue : #092635;
+  --co-cyan:#e6eff89e;
+  --co-background-dm: #062925;
+  --co-red-2 :#D72323;
+}
